@@ -1,65 +1,75 @@
-import Image from "next/image";
+import Link from "next/link";
+
+const POSTS = [
+  {
+    id: 1,
+    title: "Next.js 15와 Tailwind CSS 4로 블로그 만들기",
+    date: "2025-03-25",
+    excerpt: "새로운 기술 스택으로 블로그를 구축하면서 겪은 경험과 배운 점들을 공유합니다. App Router와 Tailwind CSS 4의 강력함을 느껴보세요.",
+  },
+  {
+    id: 2,
+    title: "공공인재와 빅데이터의 만남",
+    date: "2025-03-20",
+    excerpt: "공공 정책 결정 과정에서 빅데이터가 어떻게 혁신을 일으킬 수 있는지, 그리고 제가 공부하고 있는 공공인재빅데이터융합학에 대해 소개합니다.",
+  },
+  {
+    id: 3,
+    title: "농구 직관 후기: KBL 결승전",
+    date: "2025-03-15",
+    excerpt: "스포츠의 열기를 직접 느끼는 것만큼 즐거운 일은 없죠. 이번 주말 관람한 농구 경기 직관 후기와 경기 분석을 담았습니다.",
+  },
+];
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-screen bg-gray-50 flex flex-col font-sans">
+      {/* Header */}
+      <header className="sticky top-0 z-10 bg-white shadow-sm">
+        <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+          <Link href="/" className="text-xl font-bold text-gray-900 tracking-tight">
+            임윤서의 로그
+          </Link>
+          <nav className="flex gap-6 text-sm font-medium text-gray-600">
+            <Link href="/" className="hover:text-gray-900 transition-colors">홈</Link>
+            <Link href="/about" className="hover:text-gray-900 transition-colors">소개</Link>
+          </nav>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </header>
+
+      {/* Main Content */}
+      <main className="flex-1 max-w-4xl mx-auto px-4 py-12 w-full">
+        <h2 className="text-3xl font-extrabold text-gray-900 mb-8">최근 게시물</h2>
+        
+        <div className="space-y-12">
+          {POSTS.map((post) => (
+            <article key={post.id} className="group cursor-pointer">
+              <p className="text-sm text-gray-500 mb-2">{post.date}</p>
+              <h3 className="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors mb-4">
+                {post.title}
+              </h3>
+              <p className="text-gray-600 leading-relaxed max-w-2xl mb-4">
+                {post.excerpt}
+              </p>
+              <Link 
+                href={`/posts/${post.id}`} 
+                className="inline-flex items-center text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors"
+              >
+                더 읽어보기 &rarr;
+              </Link>
+            </article>
+          ))}
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="bg-white border-t border-gray-100 py-12 mt-12">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <p className="text-gray-500 text-sm">
+            © 2025 Lim Yunseo. All rights reserved.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }
