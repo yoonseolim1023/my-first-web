@@ -105,6 +105,14 @@ export default function Page({ params }: { params: { id: string } }) {
 
 ## 🎨 스타일링 규칙 (Tailwind CSS)
 
+### Design Tokens (요약)
+- Primary color: shadcn/ui `--primary`
+- Background: `--background`
+- Card: shadcn/ui Card 컴포넌트 사용 (rounded-lg shadow-sm)
+- Spacing: 컨텐츠 간격 `space-y-6`, 카드 내부 `p-6`
+- Max width: `max-w-4xl mx-auto` (메인 컨텐츠)
+- 반응형: md 이상 2열 그리드, 모바일 1열
+
 ### 1. CSS 변수(디자인 토큰) 사용
 - shadcn/ui가 정의한 CSS 변수를 사용한다.
 - Tailwind의 기본 컬러(`blue-500`, `red-400` 등)를 직접 쓰지 않는다.
@@ -131,6 +139,12 @@ export default function Page({ params }: { params: { id: string } }) {
 ---
 
 ## 🧩 컴포넌트 규칙 (shadcn/ui)
+
+### Component Rules (요약)
+- UI 컴포넌트는 shadcn/ui 사용 (`components/ui/`)
+- Button, Card, Input, Dialog 등 shadcn/ui 컴포넌트 우선
+- 커스텀 컴포넌트는 `components/` 루트에 배치
+- Tailwind 기본 컬러 직접 사용 금지 → CSS 변수(디자인 토큰) 사용
 
 - Button, Card, Input, Dialog 등 UI 요소는 **shadcn/ui 컴포넌트를 우선** 사용한다.
 - shadcn/ui에 없는 경우에만 커스텀 컴포넌트를 `components/` 폴더에 만든다.
