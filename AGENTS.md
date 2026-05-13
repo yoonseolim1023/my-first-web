@@ -4,6 +4,14 @@
 - React 19.2.4
 - Tailwind CSS 4
 - shadcn/ui (components/ui/ 경로에 설치됨)
+- Supabase Auth (이메일/비밀번호만 사용)
+
+## Version Policy
+
+- 교재 기준: Next.js 16.2.1, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2
+- 현재 설치 기준 (package.json): Next.js 16.2.1, @supabase/supabase-js 2.105.1, @supabase/ssr 0.10.2
+- 수업 프롬프트와 설명은 교재 기준으로 통일한다.
+- 빌드 오류가 버전 차이에서 발생하면 package.json 기준으로 원인을 확인한다.
 
 ## Coding Conventions
 
@@ -11,6 +19,11 @@
 - Use Tailwind CSS for styling.
 - Keep components simple and easy to verify.
 - Prefer files inside `app/` for routes.
+- Use middleware.ts for protected routes in this course.
+- Use signInWithPassword for Supabase Auth sign-in.
+- Do not use auth.signIn() or social logins.
+- Never expose service_role keys to clients.
+- Env vars (Ch8): NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY
 
 ## Design Tokens
 

@@ -14,6 +14,16 @@
 | TypeScript | 최신 | 타입 안전성 |
 | Tailwind CSS | 4 | 스타일링 |
 | shadcn/ui | 최신 | UI 컴포넌트 라이브러리 |
+| Supabase Auth | 이메일/비밀번호 | 인증 (소셜 로그인 미사용) |
+
+---
+
+## Version Policy
+
+- 교재 기준: Next.js 16.2.1, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2
+- 현재 설치 기준 (package.json): Next.js 16.2.1, @supabase/supabase-js 2.105.1, @supabase/ssr 0.10.2
+- 수업 프롬프트와 설명은 교재 기준으로 통일한다.
+- 빌드 오류가 버전 차이에서 발생하면 package.json 기준으로 원인을 확인한다.
 
 ---
 
@@ -100,6 +110,17 @@ export default function Page({ params }: { params: { id: string } }) {
   return <div>{params.id}</div>; // 오류 발생할 수 있음
 }
 ```
+
+### 5. Supabase Auth 규칙 (Ch9)
+
+- 이메일/비밀번호 인증만 사용한다. (소셜 로그인 추가 금지)
+- 로그인은 `signInWithPassword`만 사용한다. (`auth.signIn()` 사용 금지)
+- 보호 라우트는 `middleware.ts`로 처리한다.
+- `service_role` 키는 클라이언트에 절대 두지 않는다.
+- 환경변수 이름은 Ch8 기준을 유지한다:
+  - `NEXT_PUBLIC_SUPABASE_URL`
+  - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- Supabase 대시보드 메뉴 안내는 2026년 5월 기준이다.
 
 ---
 
@@ -191,6 +212,8 @@ export function MyCard() {
 | `params.id` 직접 접근 | `const { id } = await params` | Next.js 15+ 비동기 params |
 | `className="bg-blue-500"` | `className="bg-primary"` | CSS 변수(디자인 토큰) 사용 |
 | `<button>` HTML 태그 직접 사용 | `<Button>` shadcn/ui 컴포넌트 사용 | 디자인 일관성 유지 |
+| `auth.signIn()` 사용 | `signInWithPassword` 사용 | Supabase Auth 구버전 API 금지 |
+| `service_role` 키를 클라이언트에 저장 | 서버에서만 사용 | 보안 키 노출 방지 |
 
 ---
 

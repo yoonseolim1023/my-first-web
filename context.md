@@ -8,13 +8,14 @@
 
 ## 📅 현재 상태
 
-- **마지막 작업일**: 2026-04-29
+- **마지막 작업일**: 2026-05-13
 - **완료된 작업**:
   - 홈 페이지 (`app/page.tsx`) — 기본 레이아웃 구성
   - 레이아웃 (`app/layout.tsx`) — 공통 헤더/푸터 포함
   - 포스트 목록 페이지 (`app/posts/page.tsx`)
   - shadcn/ui 설치 — Button, Card, Input, Dialog 컴포넌트
   - `.github/copilot-instructions.md` 코딩 규칙 작성
+  - Ch9 기준 문서 정비 (Auth/버전 정책)
 - **진행 중**:
   - 포스트 상세 페이지 (`app/posts/[id]/`) — 라우트 생성됨, 내용 미완
   - 포스트 작성 페이지 (`app/posts/new/`) — 라우트 생성됨, 미완
@@ -49,9 +50,21 @@ components/
 ## ⚙️ 기술 결정 사항
 
 - **인증**: Supabase Auth (Email) — 아직 미구현
+- **인증 규칙**: 이메일/비밀번호만 사용, `signInWithPassword`만 사용
+- **보호 라우트**: `middleware.ts`로 처리
 - **상태관리**: React Context (AuthProvider) — 아직 미구현
 - **이미지**: Supabase Storage 사용 예정
 - **데이터베이스**: Supabase (아직 연결 안 됨)
+- **환경변수**: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- **보안**: `service_role` 키는 클라이언트에 두지 않음
+- **대시보드 기준**: Supabase 메뉴 안내는 2026년 5월 기준
+
+## Version Policy
+
+- 교재 기준: Next.js 16.2.1, @supabase/supabase-js 2.47.12, @supabase/ssr 0.5.2
+- 현재 설치 기준 (package.json): Next.js 16.2.1, @supabase/supabase-js 2.105.1, @supabase/ssr 0.10.2
+- 수업 프롬프트와 설명은 교재 기준으로 통일한다.
+- 빌드 오류가 버전 차이에서 발생하면 package.json 기준으로 원인을 확인한다.
 
 ---
 
@@ -79,3 +92,4 @@ components/
 2. 포스트 작성 폼 (`app/posts/new/page.tsx`) 구현
 3. Supabase 프로젝트 생성 및 DB 연결
 4. 인증 기능 (로그인/회원가입) 구현
+5. middleware.ts 보호 라우트 구성
