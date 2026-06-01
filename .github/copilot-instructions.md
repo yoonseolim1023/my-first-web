@@ -129,8 +129,8 @@ export default function Page({ params }: { params: { id: string } }) {
 - posts 컬럼명은 Ch8 스키마 그대로 사용한다: `id`, `user_id`, `title`, `content`, `created_at`.
 - Supabase CRUD는 `lib/supabase/client.ts`를 사용한다.
 - 게시글 상세의 수정/삭제 UI는 UX용이며 실제 보안은 Ch11 RLS가 담당한다.
-- RLS는 SQL Editor가 아니라 Supabase CLI 마이그레이션으로만 관리한다.
-- RLS 정책 기준은 `posts.user_id = auth.uid()` 이다.
+- RLS는 SQL Editor가 아니라 Supabase CLI 마이그레이션으로만 관리하며, 정책은 반드시 `user_id = auth.uid()` 조건을 포함해야 한다.
+- 빌드 오류(TypeScript, ESLint)를 무시하고 배포하지 않는다. 특히 `npm run build` 성공을 최종 검증 기준으로 한다.
 
 ---
 

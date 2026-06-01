@@ -38,7 +38,14 @@ export default function PostsPage() {
   }, []);
 
   useEffect(() => {
-    fetchPosts();
+    let active = true;
+    const load = async () => {
+      if (active) await fetchPosts();
+    };
+    load();
+    return () => {
+      active = false;
+    };
   }, [fetchPosts]);
 
   return (

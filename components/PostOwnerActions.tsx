@@ -60,6 +60,7 @@ export function PostOwnerActions({
         return;
       }
 
+      router.refresh();
       router.push("/posts");
     } catch (caught) {
       console.error("[PostOwnerActions] update failed", caught);
@@ -91,6 +92,7 @@ export function PostOwnerActions({
         return;
       }
 
+      router.refresh();
       router.push("/posts");
     } catch (caught) {
       console.error("[PostOwnerActions] delete failed", caught);

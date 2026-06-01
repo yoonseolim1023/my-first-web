@@ -87,9 +87,12 @@
 	- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - Supabase 대시보드 메뉴 안내는 2026년 5월 기준이다.
 
-## RLS 규칙 (Ch11)
+## RLS 규칙 (Ch11/12)
 
 - RLS는 Supabase CLI 마이그레이션으로만 관리한다. (SQL Editor 직접 실행 금지)
 - posts 테이블 정책은 `user_id = auth.uid()` 기준으로 작성한다.
-- 클라이언트 UI 분기는 UX용이며 실제 보안은 RLS가 담당한다.
+  - SELECT: `true` (전체 공개)
+  - INSERT/UPDATE/DELETE: `auth.uid() = user_id` (본인 확인)
+- 보안 계층화: UI 분기는 UX 용동(버튼 숨김 등)이며, 실제 보안은 RLS가 최종 강제한다.
 - `service_role` 키는 클라이언트에서 절대 사용하지 않는다.
+- 빌드 전 ESLint 및 TypeScript 검증을 통해 코드 품질을 유지한다.
