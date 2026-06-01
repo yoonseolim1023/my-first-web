@@ -31,6 +31,14 @@
 - Env vars (Ch8): `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
 - Supabase dashboard menu guidance is based on May 2026.
 
+## Ch10/Ch11 Guidelines
+
+- posts columns (Ch8 schema): `id`, `user_id`, `title`, `content`, `created_at`.
+- Use `lib/supabase/client.ts` for browser CRUD and `lib/supabase/server.ts` for server reads.
+- Update/delete UI is UX only; enforce security with Ch11 RLS.
+- RLS 적용 대상은 `posts` 테이블이다.
+- RLS는 Supabase CLI 마이그레이션으로만 관리한다.
+
 ## UI Rules
 
 - Prefer shadcn/ui components in `components/ui/`.

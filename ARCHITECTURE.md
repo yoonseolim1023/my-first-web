@@ -35,6 +35,12 @@
 - 로그인 성공 시 보호 라우트 접근 가능
 - 보호 라우트는 `middleware.ts`에서 처리
 
+### 게시글 CRUD
+- 글 목록에서 게시글 선택
+- 상세에서 작성자만 수정/삭제 UI 확인
+- 작성 페이지에서 새 글 저장
+- 실제 권한은 RLS가 강제
+
 ### 마이페이지
 - 마이페이지 이동
 - 내 정보 및 작성 글 확인
@@ -51,27 +57,22 @@
 - Input: 글 작성 폼 (제목, 검색, 프로필 필드)
 - Dialog: 글 삭제 확인, 작성 취소 확인, 간단 알림
 
-## 데이터 모델
-### users
-- `id` (PK)
-- `email` (unique)
-- `name`
-- `avatar_url` (optional)
-- `created_at`
-- `updated_at`
+## 데이터 모델 (Ch8 스키마)
+### profiles
+- `id` (PK, auth.users 참조)
+- `username`
+- `avatar_url`
+- `role` (user | counselor)
 
 ### posts
 - `id` (PK)
-- `author_id` (FK -> users.id)
+- `user_id` (FK -> profiles.id)
 - `title`
 - `content`
-- `status` (draft | published)
 - `created_at`
-- `updated_at`
-- `published_at` (optional)
 
 ### 관계
-- users 1 : N posts
+- profiles 1 : N posts
 - 한 유저는 여러 글을 작성할 수 있고, 각 글은 한 명의 작성자를 가진다.
 
 ## 인증/보안 규칙 (Ch9)
@@ -85,3 +86,10 @@
 	- `NEXT_PUBLIC_SUPABASE_URL`
 	- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - Supabase 대시보드 메뉴 안내는 2026년 5월 기준이다.
+
+## RLS 규칙 (Ch11)
+
+- RLS는 Supabase CLI 마이그레이션으로만 관리한다. (SQL Editor 직접 실행 금지)
+- posts 테이블 정책은 `user_id = auth.uid()` 기준으로 작성한다.
+- 클라이언트 UI 분기는 UX용이며 실제 보안은 RLS가 담당한다.
+- `service_role` 키는 클라이언트에서 절대 사용하지 않는다.

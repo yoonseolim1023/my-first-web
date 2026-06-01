@@ -1,5 +1,7 @@
 import Link from "next/link";
-import { posts } from "@/lib/posts";
+import { notFound } from "next/navigation";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { PostOwnerActions } from "@/components/PostOwnerActions";
 
 type PostDetailPageProps = {
   params: Promise<{
@@ -9,38 +11,41 @@ type PostDetailPageProps = {
 
 export default async function PostDetailPage({ params }: PostDetailPageProps) {
   const { id } = await params;
-  const postId = Number(id);
-  const post = posts.find((item) => item.id === postId);
+  const supabase = await createServerSupabaseClient();
+  const { data, error } = await supabase
+    .from("posts")
+    .select("id, title, content, created_at, user_id")
+    .eq("id", id)
+    .maybeSingle();
 
-  if (!post) {
-    return (
-      <section className="space-y-6">
-        <h1 className="text-2xl font-bold text-gray-900">게시글 상세</h1>
-        <p className="text-gray-600">게시글을 찾을 수 없습니다.</p>
-        <Link
-          href="/posts"
-          className="inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
-        >
-          목록으로 돌아가기
-        </Link>
-      </section>
-    );
+  if (error) {
+    console.error("[PostDetailPage] Supabase error:", error);
+    notFound();
   }
+  if (!data) {
+    notFound();
+  }
+
+  const post = data;
 
   return (
     <article className="space-y-6">
       <header className="space-y-2">
-        <h1 className="text-2xl font-bold text-gray-900">{post.title}</h1>
-        <p className="text-sm text-gray-500">
-          {post.author} · {post.date}
-        </p>
+        <h1 className="text-2xl font-bold">{post.title}</h1>
+        <p className="text-sm text-muted-foreground">{post.created_at}</p>
+        <PostOwnerActions
+          postId={post.id}
+          postUserId={post.user_id}
+          initialTitle={post.title}
+          initialContent={post.content}
+        />
       </header>
 
-      <p className="leading-7 text-gray-700">{post.content}</p>
+      <p className="leading-7 text-foreground">{post.content}</p>
 
       <Link
         href="/posts"
-        className="inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+        className="inline-flex items-center rounded-md border border-border px-4 py-2 text-sm font-medium text-foreground transition hover:bg-accent"
       >
         목록으로 돌아가기
       </Link>

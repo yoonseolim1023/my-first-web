@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signInWithEmail } from "@/lib/auth";
+import { toUserMessage } from "@/lib/error-message";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -22,7 +23,8 @@ export default function LoginPage() {
     const { error } = await signInWithEmail(email, password);
 
     if (error) {
-      setErrorMessage(error.message);
+      console.error("[LoginPage] signInWithEmail error:", error);
+      setErrorMessage(toUserMessage(error));
       setIsSubmitting(false);
       return;
     }
