@@ -8,6 +8,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { toUserMessage } from "@/lib/error-message";
 
 export default function NewPostPage() {
   const router = useRouter();
@@ -61,11 +62,12 @@ export default function NewPostPage() {
 
     if (error) {
       console.error("[NewPostPage] insert error:", error);
-      setServerError("게시글 저장에 실패했습니다. 잠시 후 다시 시도해 주세요.");
+      setServerError(toUserMessage(error));
       setSubmitting(false);
       return;
     }
 
+    router.refresh();
     router.push(data?.id ? `/posts/${data.id}` : "/posts");
   };
 

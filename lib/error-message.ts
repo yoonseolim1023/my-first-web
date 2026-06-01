@@ -23,5 +23,9 @@ export function toUserMessage(
     return "요청한 게시글을 찾을 수 없습니다.";
   }
 
+  if (code === "23503" || message.includes("foreign key violation")) {
+    return "프로필 정보가 없습니다. 회원가입 트리거가 정상적으로 작동했는지 확인하거나, 수동으로 프로필을 생성해 주세요.";
+  }
+
   return "일시적인 오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
 }
