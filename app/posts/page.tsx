@@ -121,7 +121,7 @@ export default async function PostsPage({ searchParams }: PostsPageProps) {
       {posts.length > 0 && (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {posts.map((post) => (
-            <Link key={post.id} href={`/posts/${post.id}`}>
+            <Link key={post.id} href={`/posts/${encodeURIComponent(post.id)}`}>
               <Card className="h-full rounded-lg shadow-sm transition hover:shadow-md">
                 <CardHeader>
                   <CardTitle className="text-lg">{post.title}</CardTitle>

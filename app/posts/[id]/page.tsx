@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { PostOwnerActions } from "@/components/PostOwnerActions";
 import { getComments } from "@/lib/comments";
@@ -26,10 +25,42 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
 
   if (error) {
     console.error("[PostDetailPage] Supabase error:", error);
-    throw new Error(error.message ?? "게시글을 불러오지 못했습니다.");
+    return (
+      <section className="space-y-6">
+        <h1 className="text-2xl font-bold">게시글 상세</h1>
+        <div className="rounded-lg border border-border bg-card p-6 text-center shadow-sm space-y-3">
+          <p className="text-base font-medium text-foreground">게시글을 불러오지 못했어요</p>
+          <p className="text-sm text-muted-foreground">
+            잠시 후 다시 시도하거나 목록으로 돌아가 주세요.
+          </p>
+          <Link
+            href="/posts"
+            className="inline-flex items-center rounded-md border border-border px-4 py-2 text-sm font-medium text-foreground transition hover:bg-accent"
+          >
+            목록으로
+          </Link>
+        </div>
+      </section>
+    );
   }
   if (!data) {
-    notFound();
+    return (
+      <section className="space-y-6">
+        <h1 className="text-2xl font-bold">게시글 상세</h1>
+        <div className="rounded-lg border border-border bg-card p-6 text-center shadow-sm space-y-3">
+          <p className="text-base font-medium text-foreground">게시글을 찾을 수 없습니다</p>
+          <p className="text-sm text-muted-foreground">
+            삭제되었거나 주소가 잘못되었을 수 있습니다.
+          </p>
+          <Link
+            href="/posts"
+            className="inline-flex items-center rounded-md border border-border px-4 py-2 text-sm font-medium text-foreground transition hover:bg-accent"
+          >
+            목록으로
+          </Link>
+        </div>
+      </section>
+    );
   }
 
   const post = data;
