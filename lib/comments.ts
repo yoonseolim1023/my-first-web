@@ -1,14 +1,8 @@
 // Server-only: uses next/headers via createServerSupabaseClient
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import type { Comment } from "@/lib/blog-types";
 
-export type Comment = {
-  id: string;
-  post_id: string;
-  user_id: string;
-  content: string;
-  created_at: string;
-  author: string;
-};
+export type { Comment };
 
 /** 서버 컴포넌트: 댓글 목록 + 작성자명 조회 */
 export async function getComments(postId: string): Promise<Comment[]> {
