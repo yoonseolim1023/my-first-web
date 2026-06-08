@@ -1,0 +1,56 @@
+﻿??Next.js 16.2.1 (Turbopack)
+- Environments: .env.local
+
+node.exe : ??The "middl
+eware" file convention 
+is deprecated. Please u
+se "proxy" instead. Lea
+rn more: https://nextjs
+.org/docs/messages/midd
+leware-to-proxy
+위치 줄:1 문자:1
++ & "C:\Program Files\n
+odejs/node.exe" "C:\Pro
+gram Files\nodejs/node_
+mo ...
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (??The "middle   
+ wa...leware-to-pro    
+xy:String) [], Rem    o
+teException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+  Creating an optimized production build ...
+??Compiled successfully in 1896ms
+  Running TypeScript ...
+  Finished TypeScript in 2.3s ...
+  Collecting page data using 10 workers ...
+  Generating static pages using 10 workers (0/6) ...
+  Generating static pages using 10 workers (1/6) 
+  Generating static pages using 10 workers (2/6) 
+  Generating static pages using 10 workers (4/6) 
+??Generating static pages using 10 workers (6/6) in 461ms
+  Finalizing page optimization ...
+
+Route (app)
+??? /
+????/_not-found
+????/login
+??? /posts
+??? /posts/[id]
+????/posts/new
+????/signup
+
+
+? Proxy (Middleware)
+
+?? (Static)   prerendered as static content
+?  (Dynamic)  server-rendered on demand
+
