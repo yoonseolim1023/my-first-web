@@ -16,6 +16,7 @@ export default function NewPostPage() {
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<{ title?: string; content?: string }>({});
+  const isAuthenticated = Boolean(user);
 
   const validate = (title: string, content: string) => {
     const errors: { title?: string; content?: string } = {};
@@ -54,6 +55,23 @@ export default function NewPostPage() {
 
     setSubmitting(true);
     const supabase = createClient();
+
+    const { error: profileError } = await supabase.from("profiles").upsert(
+      {
+        id: user.id,
+        username: user.user_metadata?.name ?? user.email?.split("@")[0] ?? null,
+        avatar_url: user.user_metadata?.avatar_url ?? null,
+      },
+      { onConflict: "id" }
+    );
+
+    if (profileError) {
+      console.error("[NewPostPage] ensure profile error:", profileError);
+      setServerError(toUserMessage(profileError));
+      setSubmitting(false);
+      return;
+    }
+
     const { data, error } = await supabase
       .from("posts")
       .insert({ title, content, user_id: user.id })
@@ -71,11 +89,23 @@ export default function NewPostPage() {
     router.push(data?.id ? `/posts/${data.id}` : "/posts");
   };
 
-  if (loading || !user) {
+  if (loading) {
     return (
       <section className="space-y-6">
         <h1 className="text-2xl font-bold">새 글 작성</h1>
         <p className="text-sm text-muted-foreground animate-pulse">로그인 확인 중...</p>
+      </section>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <section className="space-y-6">
+        <h1 className="text-2xl font-bold">새 글 작성</h1>
+        <p className="text-sm text-muted-foreground">로그인이 필요합니다.</p>
+        <Button asChild variant="outline">
+          <Link href="/login?next=/posts/new">로그인하러 가기</Link>
+        </Button>
       </section>
     );
   }

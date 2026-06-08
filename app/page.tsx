@@ -3,6 +3,8 @@ import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+export const dynamic = "force-dynamic";
+
 type RecentPost = {
   id: string;
   title: string;

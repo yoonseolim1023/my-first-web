@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { signInWithEmail } from "@/lib/auth";
 import { toUserMessage } from "@/lib/error-message";
 import { Button } from "@/components/ui/button";
@@ -10,10 +10,12 @@ import { Input } from "@/components/ui/input";
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const nextPath = searchParams.get("next") || "/posts";
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -29,7 +31,8 @@ export default function LoginPage() {
       return;
     }
 
-    router.push("/posts");
+    router.refresh();
+    window.location.assign(nextPath);
   };
 
   return (

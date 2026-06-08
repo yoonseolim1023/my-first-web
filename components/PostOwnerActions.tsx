@@ -5,10 +5,10 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { createClient } from "@/lib/supabase/client";
-import { useAuth } from "@/contexts/AuthContext";
 import { toUserMessage } from "@/lib/error-message";
 
 type PostOwnerActionsProps = {
+  canManagePost: boolean;
   postId: string;
   postUserId: string;
   initialTitle: string;
@@ -16,20 +16,20 @@ type PostOwnerActionsProps = {
 };
 
 export function PostOwnerActions({
+  canManagePost,
   postId,
   postUserId,
   initialTitle,
   initialContent,
 }: PostOwnerActionsProps) {
   const router = useRouter();
-  const { user, loading } = useAuth();
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  if (loading || !user || user.id !== postUserId) {
+  if (!canManagePost) {
     return null;
   }
 
