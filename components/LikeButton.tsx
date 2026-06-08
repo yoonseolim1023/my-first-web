@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { toggleLike } from "@/lib/likes";
+import { createClient } from "@/lib/supabase/client";
 import { Heart } from "lucide-react";
 
 type Props = {
@@ -29,23 +29,33 @@ export default function LikeButton({
     if (loading) return;
 
     // Optimistic update
+    const prevLiked = liked;
     const nextLiked = !liked;
     setLiked(nextLiked);
     setCount((prev) => prev + (nextLiked ? 1 : -1));
     setLoading(true);
 
-    const { liked: resultLiked, error } = await toggleLike(
-      postId,
-      currentUserId,
-      liked
-    );
+    const supabase = createClient();
+    let error: { message: string } | null = null;
+
+    if (prevLiked) {
+      const { error: deleteError } = await supabase
+        .from("likes")
+        .delete()
+        .eq("post_id", postId)
+        .eq("user_id", currentUserId);
+      error = deleteError;
+    } else {
+      const { error: insertError } = await supabase
+        .from("likes")
+        .insert({ post_id: postId, user_id: currentUserId });
+      error = insertError;
+    }
 
     if (error) {
-      // Rollback
-      setLiked(liked);
-      setCount((prev) => prev + (liked ? 0 : -1));
-    } else {
-      setLiked(resultLiked);
+      // Rollback on error
+      setLiked(prevLiked);
+      setCount((prev) => prev + (prevLiked ? 1 : -1));
     }
     setLoading(false);
   };
