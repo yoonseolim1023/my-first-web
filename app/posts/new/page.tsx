@@ -103,9 +103,7 @@ export default function NewPostPage() {
     if (imageFile) {
       imageUrl = await uploadPostImage(imageFile, user.id);
       if (!imageUrl) {
-        setServerError("이미지 업로드에 실패했습니다. 다시 시도해 주세요.");
-        setSubmitting(false);
-        return;
+        console.error("[NewPostPage] image upload failed, saving post without image.");
       }
     }
 

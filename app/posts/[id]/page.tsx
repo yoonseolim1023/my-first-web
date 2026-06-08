@@ -20,13 +20,13 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
   const supabase = await createServerSupabaseClient();
   const { data, error } = await supabase
     .from("posts")
-    .select("id, title, content, created_at, user_id, image_url")
+    .select("*")
     .eq("id", id)
     .maybeSingle();
 
   if (error) {
     console.error("[PostDetailPage] Supabase error:", error);
-    notFound();
+    throw new Error(error.message ?? "게시글을 불러오지 못했습니다.");
   }
   if (!data) {
     notFound();
