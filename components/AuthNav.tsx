@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function AuthNav() {
   const router = useRouter();
@@ -18,7 +19,7 @@ export default function AuthNav() {
 
   if (user) {
     return (
-      <ul className="flex items-center gap-5 text-sm font-medium">
+      <ul className="flex items-center gap-3 text-sm font-medium">
         <li>
           <Link href="/" className="transition hover:text-gray-200">
             홈
@@ -45,12 +46,15 @@ export default function AuthNav() {
             {loading ? "로딩 중..." : "로그아웃"}
           </Button>
         </li>
+        <li>
+          <ThemeToggle />
+        </li>
       </ul>
     );
   }
 
   return (
-    <ul className="flex items-center gap-5 text-sm font-medium">
+    <ul className="flex items-center gap-3 text-sm font-medium">
       <li>
         <Link href="/" className="transition hover:text-gray-200">
           홈
@@ -75,6 +79,9 @@ export default function AuthNav() {
         <Link href="/login?next=/posts/new" className="transition hover:text-gray-200">
           새 글 쓰기
         </Link>
+      </li>
+      <li>
+        <ThemeToggle />
       </li>
     </ul>
   );

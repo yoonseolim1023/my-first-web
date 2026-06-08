@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { AuthProvider } from "@/contexts/AuthContext";
 import AuthNav from "@/components/AuthNav";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
   title: "내 블로그",
@@ -19,8 +19,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className={cn("font-sans", geist.variable)}>
-      <body className="min-h-screen flex flex-col">
+    <html lang="ko" className={cn("font-sans", geist.variable)} suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function () {
+                try {
+                  var storageKey = "my-first-web-theme";
+                  var savedTheme = localStorage.getItem(storageKey);
+                  var prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+                  var theme = savedTheme === "light" || savedTheme === "dark" ? savedTheme : (prefersDark ? "dark" : "light");
+                  document.documentElement.classList.toggle("dark", theme === "dark");
+                } catch (error) {}
+              })();
+            `,
+          }}
+        />
+      </head>
+      <body className="flex min-h-screen flex-col bg-background text-foreground">
         <AuthProvider>
           <nav className="bg-primary text-primary-foreground">
             <div className="mx-auto flex w-full max-w-4xl items-center justify-between px-6 py-4">
@@ -32,7 +49,7 @@ export default function RootLayout({
             </div>
           </nav>
           <main className="mx-auto w-full max-w-4xl flex-1 p-6">{children}</main>
-          <footer className="py-4 text-center text-gray-500">© 2026 내 블로그</footer>
+          <footer className="py-4 text-center text-sm text-muted-foreground">© 2026 내 블로그</footer>
         </AuthProvider>
       </body>
     </html>
