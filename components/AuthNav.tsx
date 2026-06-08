@@ -72,11 +72,7 @@ export default function AuthNav() {
         </Link>
       </li>
       <li>
-        <Link
-          href="/posts/new"
-          className="transition hover:text-gray-200"
-          aria-disabled={loading}
-        >
+        <Link href="/login?next=/posts/new" className="transition hover:text-gray-200">
           새 글 쓰기
         </Link>
       </li>

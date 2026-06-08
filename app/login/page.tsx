@@ -31,8 +31,8 @@ export default function LoginPage() {
       return;
     }
 
-    router.refresh();
-    window.location.assign(nextPath);
+    const targetPath = nextPath.startsWith("/") ? nextPath : "/posts";
+    window.location.replace(targetPath);
   };
 
   return (
