@@ -1,0 +1,120 @@
+﻿??Next.js 16.2.1 (Turbopack)
+- Environments: .env.local
+
+node.exe : ??The "middl
+eware" file convention 
+is deprecated. Please u
+se "proxy" instead. Lea
+rn more: https://nextjs
+.org/docs/messages/midd
+leware-to-proxy
+위치 줄:1 문자:1
++ & "C:\Program Files\n
+odejs/node.exe" "C:\Pro
+gram Files\nodejs/node_
+mo ...
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (??The "middle   
+ wa...leware-to-pro    
+xy:String) [], Rem    o
+teException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+  Creating an optimized production build ...
+
+> Build error occurred
+Error: Turbopack build 
+failed with 1 errors:
+./lib/supabase/server.t
+s:2:1
+You're importing a modu
+le that depends on "nex
+t/headers". This API is
+ only available in Serv
+er Components in the Ap
+p Router, but you are u
+sing it in the Pages Ro
+uter.
+    Learn more: https:/
+/nextjs.org/docs/app/bu
+ilding-your-application
+/rendering/server-compo
+nents
+  [90m1 |[0m [36mimp
+ort[0m { createServerC
+lient } [36mfrom[0m 
+[32m"@supabase/ssr"[0m
+;
+[31m[1m>[0m [90m2 |
+[0m [36mimport[0m { 
+cookies } [36mfrom[0m
+ [32m"next/headers"[0
+m;
+  [90m  |[0m [31m[1
+m^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^[0m
+  [90m3 |[0m
+  [90m4 |[0m [36mexp
+ort[0m [36mconst[0m 
+createServerSupabaseCli
+ent = [36masync[0m ()
+ => {
+  [90m5 |[0m   [36mc
+onst[0m cookieStore = 
+[36mawait[0m cookies(
+);
+
+Ecmascript file had an 
+error
+
+Import traces:
+  Server Component:
+    ./lib/supabase/serv
+er.ts
+    ./app/posts/[id]/pa
+ge.tsx
+
+  Client Component Brow
+ser:
+    ./lib/supabase/serv
+er.ts [Client Component
+ Browser]
+    ./lib/likes.ts [Cli
+ent Component Browser]
+    ./components/LikeBu
+tton.tsx [Client Compon
+ent Browser]
+    ./components/LikeBu
+tton.tsx [Server Compon
+ent]
+    ./app/posts/[id]/pa
+ge.tsx [Server Componen
+t]
+
+  Client Component SSR:
+    ./lib/supabase/serv
+er.ts [Client Component
+ SSR]
+    ./lib/likes.ts [Cli
+ent Component SSR]
+    ./components/LikeBu
+tton.tsx [Client Compon
+ent SSR]
+    ./components/LikeBu
+tton.tsx [Server Compon
+ent]
+    ./app/posts/[id]/pa
+ge.tsx [Server Componen
+t]
+
+
+    at <unknown> (./lib
+/supabase/server.ts:2:1
+)

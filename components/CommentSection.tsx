@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { addComment, deleteComment } from "@/lib/comments";
 import type { Comment } from "@/lib/comments";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
@@ -47,9 +46,9 @@ export default function CommentSection({
     }
 
     setSubmitting(true);
-
-    // 작성자명 조회 (낙관적 업데이트용)
     const supabase = createClient();
+
+    // 작성자명 조회
     const { data: profile } = await supabase
       .from("profiles")
       .select("username")
@@ -57,13 +56,14 @@ export default function CommentSection({
       .maybeSingle();
     const author = profile?.username ?? "익명";
 
-    const { data, error: addError } = await addComment(
-      postId,
-      currentUserId,
-      text
-    );
-    if (addError || !data) {
-      setError(addError ?? "댓글 추가에 실패했습니다.");
+    const { data, error: insertError } = await supabase
+      .from("comments")
+      .insert({ post_id: postId, user_id: currentUserId, content: text })
+      .select("id, post_id, user_id, content, created_at")
+      .single();
+
+    if (insertError || !data) {
+      setError(insertError?.message ?? "댓글 추가에 실패했습니다.");
       setSubmitting(false);
       return;
     }
@@ -74,9 +74,13 @@ export default function CommentSection({
   };
 
   const handleDelete = async (commentId: string) => {
-    const err = await deleteComment(commentId);
-    if (err) {
-      setError(err);
+    const supabase = createClient();
+    const { error: deleteError } = await supabase
+      .from("comments")
+      .delete()
+      .eq("id", commentId);
+    if (deleteError) {
+      setError(deleteError.message);
       return;
     }
     setComments((prev) => prev.filter((c) => c.id !== commentId));
@@ -85,7 +89,8 @@ export default function CommentSection({
   return (
     <section className="space-y-4 pt-6 border-t border-border">
       <h2 className="text-lg font-semibold">
-        댓글 <span className="text-muted-foreground text-sm">({comments.length})</span>
+        댓글{" "}
+        <span className="text-muted-foreground text-sm">({comments.length})</span>
       </h2>
 
       {/* 댓글 목록 */}
@@ -137,7 +142,12 @@ export default function CommentSection({
             className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
           />
           {error && <p className="text-xs text-destructive">{error}</p>}
-          <Button type="submit" size="sm" disabled={submitting} id="comment-submit">
+          <Button
+            type="submit"
+            size="sm"
+            disabled={submitting}
+            id="comment-submit"
+          >
             {submitting ? "저장 중..." : "댓글 달기"}
           </Button>
         </form>

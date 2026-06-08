@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/client";
+// Server-only: uses next/headers via createServerSupabaseClient
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 export type Comment = {
@@ -36,31 +36,4 @@ export async function getComments(postId: string): Promise<Comment[]> {
     ...c,
     author: profileMap.get(c.user_id) ?? "익명",
   }));
-}
-
-/** 클라이언트 컴포넌트: 댓글 추가 */
-export async function addComment(
-  postId: string,
-  userId: string,
-  content: string
-): Promise<{ data: Comment | null; error: string | null }> {
-  const supabase = createClient();
-  const { data, error } = await supabase
-    .from("comments")
-    .insert({ post_id: postId, user_id: userId, content })
-    .select("id, post_id, user_id, content, created_at")
-    .single();
-
-  if (error) return { data: null, error: error.message };
-  return { data: { ...data, author: "" }, error: null };
-}
-
-/** 클라이언트 컴포넌트: 댓글 삭제 */
-export async function deleteComment(commentId: string): Promise<string | null> {
-  const supabase = createClient();
-  const { error } = await supabase
-    .from("comments")
-    .delete()
-    .eq("id", commentId);
-  return error ? error.message : null;
 }
