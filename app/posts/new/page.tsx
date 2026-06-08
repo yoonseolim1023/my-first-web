@@ -5,10 +5,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { uploadPostImage } from "@/lib/storage";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toUserMessage } from "@/lib/error-message";
+import { ImagePlus, X } from "lucide-react";
 
 export default function NewPostPage() {
   const router = useRouter();
@@ -16,6 +18,8 @@ export default function NewPostPage() {
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<{ title?: string; content?: string }>({});
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const isAuthenticated = Boolean(user);
 
   const validate = (title: string, content: string) => {
@@ -31,6 +35,28 @@ export default function NewPostPage() {
       errors.content = "내용은 최소 10자 이상이어야 합니다.";
     }
     return errors;
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] ?? null;
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      setServerError("이미지 파일만 첨부할 수 있습니다.");
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setServerError("이미지 크기는 5MB 이하여야 합니다.");
+      return;
+    }
+    setImageFile(file);
+    setImagePreview(URL.createObjectURL(file));
+    setServerError(null);
+  };
+
+  const handleImageRemove = () => {
+    setImageFile(null);
+    if (imagePreview) URL.revokeObjectURL(imagePreview);
+    setImagePreview(null);
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -72,9 +98,20 @@ export default function NewPostPage() {
       return;
     }
 
+    // 이미지 업로드
+    let imageUrl: string | null = null;
+    if (imageFile) {
+      imageUrl = await uploadPostImage(imageFile, user.id);
+      if (!imageUrl) {
+        setServerError("이미지 업로드에 실패했습니다. 다시 시도해 주세요.");
+        setSubmitting(false);
+        return;
+      }
+    }
+
     const { data, error } = await supabase
       .from("posts")
-      .insert({ title, content, user_id: user.id })
+      .insert({ title, content, user_id: user.id, image_url: imageUrl })
       .select("id")
       .single();
 
@@ -120,6 +157,7 @@ export default function NewPostPage() {
         </CardHeader>
         <CardContent className="p-6">
           <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+            {/* 제목 */}
             <div className="space-y-1">
               <label htmlFor="title" className="text-sm font-medium">
                 제목
@@ -140,6 +178,7 @@ export default function NewPostPage() {
               )}
             </div>
 
+            {/* 내용 */}
             <div className="space-y-1">
               <label htmlFor="content" className="text-sm font-medium">
                 내용
@@ -163,6 +202,46 @@ export default function NewPostPage() {
                 <p id="content-error" className="text-xs text-destructive">
                   {fieldErrors.content}
                 </p>
+              )}
+            </div>
+
+            {/* 이미지 업로드 */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium">이미지 첨부 (선택)</label>
+              {imagePreview ? (
+                <div className="relative w-full">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={imagePreview}
+                    alt="미리보기"
+                    className="w-full max-h-64 rounded-lg object-cover border border-border"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleImageRemove}
+                    aria-label="이미지 제거"
+                    className="absolute top-2 right-2 rounded-full bg-background/80 p-1 text-foreground hover:bg-destructive hover:text-destructive-foreground transition-colors"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
+              ) : (
+                <label
+                  htmlFor="image-input"
+                  className="flex cursor-pointer flex-col items-center gap-2 rounded-lg border-2 border-dashed border-border px-4 py-8 text-sm text-muted-foreground hover:border-ring hover:text-foreground transition-colors"
+                >
+                  <ImagePlus className="h-6 w-6" />
+                  <span>클릭하여 이미지를 첨부하세요</span>
+                  <span className="text-xs">JPG, PNG, GIF, WebP · 최대 5MB</span>
+                  <input
+                    id="image-input"
+                    type="file"
+                    accept="image/*"
+                    className="sr-only"
+                    onChange={handleImageChange}
+                    disabled={submitting}
+                  />
+                </label>
               )}
             </div>
 
