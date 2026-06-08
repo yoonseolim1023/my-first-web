@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import type { Comment } from "@/lib/comments";
+import type { Comment } from "@/lib/blog-types";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 
