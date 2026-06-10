@@ -36,31 +36,36 @@ export default function SearchBar() {
   };
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
       <div className="relative flex-1">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground/70" />
         <Input
           ref={inputRef}
           id="search-input"
           type="text"
-          placeholder="제목 또는 내용으로 검색..."
+          placeholder="인사이트를 검색해 보세요..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
-          className="pl-9 pr-9"
+          className="h-11 border-border/50 bg-muted/30 pl-9 pr-9 transition-all focus:bg-background focus:ring-primary/20 sm:text-sm"
         />
         {query && (
           <button
             onClick={handleClear}
             aria-label="검색어 지우기"
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+            className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted-foreground/50 transition-colors hover:bg-muted hover:text-foreground"
           >
-            <X className="h-4 w-4" />
+            <X className="h-3.5 w-3.5" />
           </button>
         )}
       </div>
-      <Button variant="outline" onClick={handleSearch} id="search-button">
-        검색
+      <Button 
+        variant="primary" 
+        onClick={handleSearch} 
+        id="search-button"
+        className="h-11 px-6 font-semibold shadow-lg shadow-primary/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
+      >
+        검색하기
       </Button>
     </div>
   );

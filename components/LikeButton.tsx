@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { useAuth } from "@/contexts/AuthContext";
 import { Heart } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type Props = {
   postId: string;
@@ -19,20 +18,13 @@ export default function LikeButton({
   initialLiked,
   currentUserId,
 }: Props) {
-  const router = useRouter();
-  const { user, loading: authLoading } = useAuth();
   const [count, setCount] = useState(initialCount);
   const [liked, setLiked] = useState(initialLiked);
   const [loading, setLoading] = useState(false);
-  const effectiveUserId = currentUserId ?? user?.id;
 
   const handleClick = async () => {
-    if (authLoading) {
-      return;
-    }
-
-    if (!effectiveUserId) {
-      router.push("/login");
+    if (!currentUserId) {
+      window.location.href = `/login?next=${encodeURIComponent(window.location.pathname)}`;
       return;
     }
     if (loading) return;
@@ -47,66 +39,63 @@ export default function LikeButton({
     const supabase = createClient();
     let error: { message: string } | null = null;
 
-    // 프로필이 아직 없으면 먼저 생성해서 likes 외래키 오류를 막는다.
-    if (user) {
-      const { error: profileError } = await supabase.from("profiles").upsert(
-        {
-          id: user.id,
-          username: user.user_metadata?.name ?? user.email?.split("@")[0] ?? null,
-          avatar_url: user.user_metadata?.avatar_url ?? null,
-        },
-        { onConflict: "id" }
-      );
-
-      if (profileError) {
-        error = profileError;
-      }
-    }
-
-    if (!error && prevLiked) {
+    if (prevLiked) {
       const { error: deleteError } = await supabase
         .from("likes")
         .delete()
         .eq("post_id", postId)
-        .eq("user_id", effectiveUserId);
+        .eq("user_id", currentUserId);
       error = deleteError;
-    } else if (!error) {
+    } else {
       const { error: insertError } = await supabase
         .from("likes")
-        .insert({ post_id: postId, user_id: effectiveUserId });
+        .insert({ post_id: postId, user_id: currentUserId });
       error = insertError;
     }
 
     if (error) {
-      console.error("[LikeButton] like action failed:", error);
       // Rollback on error
       setLiked(prevLiked);
       setCount((prev) => prev + (prevLiked ? 1 : -1));
+      console.error("[LikeButton] action failed:", error);
     }
     setLoading(false);
   };
 
   return (
-    <button
-      id="like-button"
-      type="button"
-      onClick={handleClick}
-      disabled={loading || authLoading}
-      aria-label={liked ? "좋아요 취소" : "좋아요"}
-      aria-busy={loading || authLoading}
-      className={[
-        "inline-flex items-center gap-1.5 rounded-full border px-4 py-1.5 text-sm font-medium transition-all",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
-        liked
-          ? "border-rose-400 bg-rose-50 text-rose-600 dark:bg-rose-950/30 dark:text-rose-400"
-          : "border-border bg-background text-muted-foreground hover:border-rose-300 hover:text-rose-500",
-        loading || authLoading ? "opacity-60 cursor-not-allowed" : "cursor-pointer",
-      ].join(" ")}
-    >
-      <Heart
-        className={`h-4 w-4 ${liked ? "fill-rose-500 text-rose-500" : ""}`}
-      />
-      <span>{count}</span>
-    </button>
+    <div className="group flex flex-col items-center gap-3">
+      <button
+        id="like-button"
+        type="button"
+        onClick={handleClick}
+        disabled={loading}
+        aria-label={liked ? "좋아요 취소" : "좋아요"}
+        className={cn(
+          "relative flex h-16 w-16 items-center justify-center rounded-full transition-all duration-300",
+          "hover:scale-110 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50",
+          liked 
+            ? "bg-rose-500 text-white shadow-lg shadow-rose-500/40 ring-4 ring-rose-500/10" 
+            : "bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground"
+        )}
+      >
+        <Heart
+          className={cn(
+            "h-8 w-8 transition-all duration-300",
+            liked ? "fill-current scale-110" : "scale-100 group-hover:scale-110"
+          )}
+        />
+        {loading && (
+          <div className="absolute inset-0 flex items-center justify-center rounded-full bg-white/20">
+             <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+          </div>
+        )}
+      </button>
+      <span className={cn(
+        "text-sm font-bold transition-colors",
+        liked ? "text-rose-500" : "text-muted-foreground"
+      )}>
+        {count.toLocaleString()}명이 좋아합니다
+      </span>
+    </div>
   );
 }
