@@ -43,13 +43,13 @@ export default async function HomePage() {
         
         <div className="group inline-flex items-center gap-2 rounded-2xl border border-primary/20 bg-primary/5 px-5 py-2 text-sm font-bold text-primary transition-all hover:bg-primary/10 animate-in fade-in slide-in-from-top-4 duration-1000">
           <Zap className="h-4 w-4 fill-primary" />
-          <span className="uppercase tracking-widest text-[10px]">The Future of Insights</span>
+          <span className="uppercase tracking-widest text-[10px]">Dev Insights Archive</span>
         </div>
         
-        <h1 className="mt-8 text-6xl font-black tracking-tighter sm:text-8xl lg:text-9xl leading-[0.9]">
-          <span className="block text-gradient">Mastering</span>
+        <h1 className="mt-8 text-5xl font-black tracking-tighter sm:text-7xl lg:text-8xl leading-tight">
+          <span className="block text-gradient">기록을 통한 성장,</span>
           <span className="block bg-gradient-to-r from-primary via-violet-500 to-blue-500 bg-clip-text text-transparent italic">
-            Web Dev
+            Modern Blog
           </span>
         </h1>
         
@@ -61,12 +61,12 @@ export default async function HomePage() {
         <div className="mt-12 flex flex-wrap items-center justify-center gap-6 animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-300">
           <Button asChild size="lg" className="h-16 px-10 text-lg font-black rounded-2xl shadow-2xl shadow-primary/40 transition-all hover:scale-105 active:scale-95 primary-gradient">
             <Link href="/posts" className="flex items-center gap-3">
-              게시글 탐색 <TrendingUp className="h-5 w-5" />
+              전체 게시글 보기 <TrendingUp className="h-5 w-5" />
             </Link>
           </Button>
           <Button asChild variant="outline" size="lg" className="h-16 px-10 text-lg font-black rounded-2xl border-2 transition-all hover:bg-muted/50 hover:scale-105 active:scale-95 bg-background/50 backdrop-blur-sm">
             <Link href="/posts/new" className="flex items-center gap-3">
-              생각 기록하기 <PenLine className="h-5 w-5" />
+              새로운 생각 기록 <PenLine className="h-5 w-5" />
             </Link>
           </Button>
         </div>
@@ -80,12 +80,12 @@ export default async function HomePage() {
               <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-primary/10 text-primary">
                 <BookOpen className="h-6 w-6" />
               </div>
-              <h2>최근 큐레이션</h2>
+              <h2>최근 업데이트</h2>
             </div>
-            <p className="text-muted-foreground font-medium">새롭게 업데이트된 통찰력 있는 게시물입니다.</p>
+            <p className="text-muted-foreground font-medium text-lg italic">"끊임없이 배우고 기록하며 나아갑니다."</p>
           </div>
           <Link href="/posts" className="group flex items-center gap-2 text-sm font-bold text-primary transition-all hover:gap-3">
-            전체 아카이브 보기 <ArrowRight className="h-4 w-4" />
+            전체 리스트 <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
 
@@ -93,19 +93,17 @@ export default async function HomePage() {
           <div className="flex min-h-[300px] flex-col items-center justify-center space-y-4 rounded-[2.5rem] border-2 border-dashed border-border/40 bg-muted/5 p-12 text-center">
              <div className="h-12 w-12 rounded-full bg-rose-500/10 flex items-center justify-center text-rose-500 text-2xl">⚠️</div>
              <p className="text-muted-foreground font-medium max-w-xs">최근 소식을 불러오는 중 예상치 못한 문제가 발생했습니다.</p>
-             <Button variant="outline" size="sm" asChild>
-               <Link href="/posts">다시 시도하기</Link>
-             </Button>
+             <Link href="/posts" className="text-primary hover:underline font-bold">새로고침 시도</Link>
           </div>
         ) : posts.length === 0 ? (
           <div className="flex flex-col items-center justify-center gap-6 py-24 text-center animate-in fade-in zoom-in-95 duration-700">
              <div className="h-24 w-24 rounded-[2rem] bg-muted flex items-center justify-center text-5xl shadow-inner">🌱</div>
              <div className="space-y-2">
-               <h3 className="text-2xl font-bold">블로그의 주인공이 되어주세요</h3>
-               <p className="text-muted-foreground max-w-sm">당신의 지식과 경험이 누군가에게는 큰 영감이 될 수 있습니다.</p>
+               <h3 className="text-2xl font-bold">당신만의 첫 글을 기다리고 있어요</h3>
+               <p className="text-muted-foreground max-w-sm font-medium italic">당신의 지식과 경험이 누군가에게는 큰 영감이 될 수 있습니다.</p>
              </div>
-             <Button asChild size="lg" className="rounded-2xl shadow-xl shadow-primary/20 primary-gradient px-12">
-               <Link href="/posts/new">첫 번째 글 발행하기</Link>
+             <Button asChild size="lg" className="rounded-2xl shadow-xl shadow-primary/20 primary-gradient px-12 h-14">
+               <Link href="/posts/new">게시글 발행하기</Link>
              </Button>
           </div>
         ) : (
