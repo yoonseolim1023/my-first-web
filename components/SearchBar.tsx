@@ -60,7 +60,7 @@ export default function SearchBar() {
         )}
       </div>
       <Button 
-        variant="primary" 
+        variant="default" 
         onClick={handleSearch} 
         id="search-button"
         className="h-11 px-6 font-semibold shadow-lg shadow-primary/20 transition-all hover:scale-[1.02] active:scale-[0.98]"

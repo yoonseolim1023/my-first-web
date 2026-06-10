@@ -7,6 +7,7 @@ import CommentSection from "@/components/CommentSection";
 import LikeButton from "@/components/LikeButton";
 import { posts as legacyPosts } from "@/lib/posts";
 import { Calendar, ChevronLeft, User } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export const dynamic = "force-dynamic";
 
@@ -179,11 +180,3 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
   );
 }
 
-// Minimal Button component to fix build if it fails
-function Button({ variant, asChild, children, className }: any) {
-  return (
-    <div className={className}>
-      {children}
-    </div>
-  );
-}
