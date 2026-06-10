@@ -13,8 +13,8 @@ const fontSans = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Modern Blog | Insightful Stories",
-  description: "웹 개발을 배우며 기록하는 하이엔드 테크 블로그",
+  title: "Ｙ윤서。ｄｅｖ | Insightful Stories",
+  description: "개발자 윤서의 기술과 성장 이야기를 담은 블로그",
 };
 
 export default function RootLayout({
@@ -41,16 +41,16 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="flex min-h-screen flex-col bg-background text-foreground transition-colors duration-500 selection:bg-primary/30 selection:text-primary">
+      <body className="flex min-h-screen flex-col bg-background text-foreground transition-colors duration-500 selection:bg-primary/40 selection:text-white">
         <AuthProvider>
           <header className="glass">
             <div className="mx-auto flex h-20 w-full max-w-5xl items-center justify-between px-6">
               <Link href="/" className="group flex items-center gap-3 text-2xl font-black tracking-tighter">
-                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-primary/60 text-primary-foreground shadow-lg shadow-primary/30 transition-transform group-hover:rotate-12 group-active:scale-90">
-                  <span className="text-xl">M</span>
+                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-orange-400 text-primary-foreground shadow-lg shadow-primary/30 transition-transform group-hover:rotate-12 group-active:scale-90">
+                  <span className="text-xl">Ｙ</span>
                 </div>
-                <span className="bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent group-hover:to-primary/70 transition-all">
-                  Modern Blog
+                <span className="bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent group-hover:to-primary transition-all whitespace-nowrap">
+                  Ｙ윤서。ｄｅｖ
                 </span>
               </Link>
 
@@ -68,15 +68,15 @@ export default function RootLayout({
             <div className="mx-auto max-w-5xl px-6 text-center space-y-6">
               <div className="flex items-center justify-center gap-2 text-xl font-black tracking-tighter opacity-80">
                 <span className="h-2 w-2 rounded-full bg-primary" />
-                Modern Blog
+                Ｙ윤서。ｄｅｖ
               </div>
               <p className="text-sm font-medium text-muted-foreground/70 max-w-md mx-auto">
-                웹 개발을 배우며 마주치는 영감과 고민들을 기록합니다. 
-                더 깊은 성찰을 담은 이야기를 공유합니다.
+                단순한 코딩을 넘어, 매일의 고민과 배움을 기록합니다.<br />
+                개발자 윤서가 채워나가는 기술과 성장 이야기를 만나보세요.
               </p>
               <div className="pt-4 border-t border-border/20">
                  <p className="text-xs font-bold text-muted-foreground/40 uppercase tracking-widest">
-                   © 2026 Modern Blog. Design Refinement Phase 2.
+                   © 2026 Ｙ윤서。ｄｅｖ. Personal Branding Excellence.
                  </p>
               </div>
             </div>

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, BookOpen, PenLine, Sparkles, TrendingUp, Zap } from "lucide-react";
+import { ArrowRight, BookOpen, PenLine, Sparkles, TrendingUp, Zap, Star } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -32,41 +32,41 @@ export default async function HomePage() {
 
   return (
     <div className="space-y-32 pb-20">
-      {/* Premium Hero Section */}
+      {/* Personalized Hero Section */}
       <section className="relative flex min-h-[60vh] flex-col items-center justify-center py-20 text-center">
-        {/* Advanced Background Effects */}
+        {/* Advanced Background Effects (Yellow Theme) */}
         <div className="absolute inset-0 -z-10 overflow-hidden">
-          <div className="absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/20 blur-[120px] opacity-50" />
-          <div className="absolute left-[20%] top-[30%] h-[300px] w-[300px] rounded-full bg-blue-400/20 blur-[100px] opacity-40 animate-pulse" />
-          <div className="absolute right-[20%] bottom-[30%] h-[400px] w-[400px] rounded-full bg-violet-400/20 blur-[100px] opacity-40 animate-pulse delay-1000" />
+          <div className="absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/30 blur-[120px] opacity-60" />
+          <div className="absolute left-[20%] top-[30%] h-[300px] w-[300px] rounded-full bg-amber-400/20 blur-[100px] opacity-50 animate-pulse" />
+          <div className="absolute right-[20%] bottom-[30%] h-[400px] w-[400px] rounded-full bg-orange-400/20 blur-[100px] opacity-50 animate-pulse delay-1000" />
         </div>
         
-        <div className="group inline-flex items-center gap-2 rounded-2xl border border-primary/20 bg-primary/5 px-5 py-2 text-sm font-bold text-primary transition-all hover:bg-primary/10 animate-in fade-in slide-in-from-top-4 duration-1000">
-          <Zap className="h-4 w-4 fill-primary" />
-          <span className="uppercase tracking-widest text-[10px]">Dev Insights Archive</span>
+        <div className="group inline-flex items-center gap-2 rounded-2xl border border-primary/30 bg-primary/10 px-5 py-2 text-sm font-bold text-primary transition-all hover:bg-primary/20 animate-in fade-in slide-in-from-top-4 duration-1000">
+          <Star className="h-4 w-4 fill-primary" />
+          <span className="uppercase tracking-widest text-[10px]">Development & Growth Archive</span>
         </div>
         
         <h1 className="mt-8 text-5xl font-black tracking-tighter sm:text-7xl lg:text-8xl leading-tight">
           <span className="block text-gradient">기록을 통한 성장,</span>
-          <span className="block bg-gradient-to-r from-primary via-violet-500 to-blue-500 bg-clip-text text-transparent italic">
-            Modern Blog
+          <span className="block bg-gradient-to-r from-primary via-orange-500 to-amber-500 bg-clip-text text-transparent italic">
+            Yｏｏnseo.log
           </span>
         </h1>
         
         <p className="mt-10 max-w-2xl text-xl leading-relaxed text-muted-foreground/80 sm:text-2xl font-medium tracking-tight">
-          단순한 기록을 넘어, 코드 속에 담긴 <span className="text-foreground">철학</span>과 <span className="text-foreground">영감</span>을 공유합니다.<br className="hidden sm:block" />
-          모던 웹 트렌드와 깊이 있는 기술적 고찰을 만나보세요.
+          단순한 코딩을 넘어, <span className="text-foreground">매일의 고민과 배움</span>을 기록합니다.<br className="hidden sm:block" />
+          개발자 윤서가 채워나가는 <span className="text-foreground">기술과 성장 이야기</span>를 만나보세요.
         </p>
         
         <div className="mt-12 flex flex-wrap items-center justify-center gap-6 animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-300">
-          <Button asChild size="lg" className="h-16 px-10 text-lg font-black rounded-2xl shadow-2xl shadow-primary/40 transition-all hover:scale-105 active:scale-95 primary-gradient">
+          <Button asChild size="lg" className="h-16 px-10 text-lg font-black rounded-2xl shadow-2xl shadow-primary/40 transition-all hover:scale-105 active:scale-95 primary-gradient border-none text-white">
             <Link href="/posts" className="flex items-center gap-3">
-              전체 게시글 보기 <TrendingUp className="h-5 w-5" />
+              게시글 탐색 <TrendingUp className="h-5 w-5" />
             </Link>
           </Button>
-          <Button asChild variant="outline" size="lg" className="h-16 px-10 text-lg font-black rounded-2xl border-2 transition-all hover:bg-muted/50 hover:scale-105 active:scale-95 bg-background/50 backdrop-blur-sm">
+          <Button asChild variant="outline" size="lg" className="h-16 px-10 text-lg font-black rounded-2xl border-2 border-primary/20 transition-all hover:bg-primary/5 hover:scale-105 active:scale-95 bg-background/50 backdrop-blur-sm">
             <Link href="/posts/new" className="flex items-center gap-3">
-              새로운 생각 기록 <PenLine className="h-5 w-5" />
+              생각 기록하기 <PenLine className="h-5 w-5" />
             </Link>
           </Button>
         </div>
@@ -77,7 +77,7 @@ export default async function HomePage() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between border-b border-border/40 pb-8">
           <div className="space-y-2">
             <div className="flex items-center gap-3 text-3xl font-black tracking-tighter">
-              <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-primary/10 text-primary">
+              <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-primary/20 text-primary">
                 <BookOpen className="h-6 w-6" />
               </div>
               <h2>최근 업데이트</h2>
@@ -90,19 +90,19 @@ export default async function HomePage() {
         </div>
 
         {error ? (
-          <div className="flex min-h-[300px] flex-col items-center justify-center space-y-4 rounded-[2.5rem] border-2 border-dashed border-border/40 bg-muted/5 p-12 text-center">
+          <div className="flex min-h-[300px] flex-col items-center justify-center space-y-4 rounded-[2.5rem] border-2 border-dashed border-primary/20 bg-muted/5 p-12 text-center">
              <div className="h-12 w-12 rounded-full bg-rose-500/10 flex items-center justify-center text-rose-500 text-2xl">⚠️</div>
              <p className="text-muted-foreground font-medium max-w-xs">최근 소식을 불러오는 중 예상치 못한 문제가 발생했습니다.</p>
              <Link href="/posts" className="text-primary hover:underline font-bold">새로고침 시도</Link>
           </div>
         ) : posts.length === 0 ? (
           <div className="flex flex-col items-center justify-center gap-6 py-24 text-center animate-in fade-in zoom-in-95 duration-700">
-             <div className="h-24 w-24 rounded-[2rem] bg-muted flex items-center justify-center text-5xl shadow-inner">🌱</div>
+             <div className="h-24 w-24 rounded-[2.5rem] bg-muted/30 flex items-center justify-center text-5xl shadow-inner">🌱</div>
              <div className="space-y-2">
                <h3 className="text-2xl font-bold">당신만의 첫 글을 기다리고 있어요</h3>
                <p className="text-muted-foreground max-w-sm font-medium italic">당신의 지식과 경험이 누군가에게는 큰 영감이 될 수 있습니다.</p>
              </div>
-             <Button asChild size="lg" className="rounded-2xl shadow-xl shadow-primary/20 primary-gradient px-12 h-14">
+             <Button asChild size="lg" className="rounded-2xl shadow-xl shadow-primary/20 primary-gradient px-12 h-14 border-none text-white font-black text-base">
                <Link href="/posts/new">게시글 발행하기</Link>
              </Button>
           </div>
@@ -111,12 +111,12 @@ export default async function HomePage() {
             {posts.map((post, index) => (
               <Link key={post.id} href={`/posts/${post.id}`} className="group">
                 <div 
-                  className="relative flex h-full flex-col overflow-hidden rounded-[2.5rem] bg-card/40 border border-border/40 p-1 transition-all duration-500 hover:bg-card hover:shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:-translate-y-3"
+                  className="relative flex h-full flex-col overflow-hidden rounded-[2.5rem] bg-card/40 border border-border/40 p-1 transition-all duration-500 hover:bg-card hover:shadow-[0_20px_50px_rgba(255,200,0,0.1)] dark:hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:-translate-y-3"
                   style={{ transitionDelay: `${index * 100}ms` }}
                 >
                   <div className="flex flex-col flex-1 p-8 space-y-6">
                     <div className="space-y-4 flex-1">
-                      <div className="h-1.5 w-12 rounded-full bg-primary/20 transition-all group-hover:w-20 group-hover:bg-primary" />
+                      <div className="h-1.5 w-12 rounded-full bg-primary/30 transition-all group-hover:w-20 group-hover:bg-primary" />
                       <h3 className="line-clamp-2 text-2xl font-black leading-tight tracking-tighter group-hover:text-primary transition-colors">
                         {post.title}
                       </h3>
@@ -128,7 +128,7 @@ export default async function HomePage() {
                       <time className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/40">
                         {formatDate(post.created_at)}
                       </time>
-                      <div className="h-8 w-8 rounded-full border border-border/40 flex items-center justify-center text-muted-foreground group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-all">
+                      <div className="h-8 w-8 rounded-full border border-border/40 flex items-center justify-center text-muted-foreground group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all">
                         <ArrowRight className="h-4 w-4" />
                       </div>
                     </div>
