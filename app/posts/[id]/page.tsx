@@ -5,6 +5,7 @@ import { getComments } from "@/lib/comments";
 import { getLikeCount, getHasLiked } from "@/lib/likes";
 import CommentSection from "@/components/CommentSection";
 import LikeButton from "@/components/LikeButton";
+import { posts as legacyPosts } from "@/lib/posts";
 
 export const dynamic = "force-dynamic";
 
@@ -44,6 +45,36 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
     );
   }
   if (!data) {
+    const legacyPost = legacyPosts.find(
+      (post) => String(post.id) === id || String(post.id) === String(Number(id))
+    );
+
+    if (legacyPost) {
+      return (
+        <article className="space-y-6">
+          <header className="space-y-2">
+            <h1 className="text-2xl font-bold">{legacyPost.title}</h1>
+            <p className="text-sm text-muted-foreground">
+              {legacyPost.author} · {legacyPost.date}
+            </p>
+          </header>
+
+          <p className="leading-7 text-foreground whitespace-pre-wrap">{legacyPost.content}</p>
+
+          <div className="rounded-lg border border-border bg-card p-4 text-sm text-muted-foreground shadow-sm">
+            현재 이 글은 이전 버전 데이터로 표시되고 있습니다.
+          </div>
+
+          <Link
+            href="/posts"
+            className="inline-flex items-center rounded-md border border-border px-4 py-2 text-sm font-medium text-foreground transition hover:bg-accent"
+          >
+            목록으로 돌아가기
+          </Link>
+        </article>
+      );
+    }
+
     return (
       <section className="space-y-6">
         <h1 className="text-2xl font-bold">게시글 상세</h1>
